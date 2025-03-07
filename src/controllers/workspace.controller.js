@@ -70,10 +70,9 @@ export const inviteUserToWorkspace = async (req, res) => {
     }
 };
 
-export const getWorkspaces = async () =>{
-    try{
-
-        workspaces_found = await workspaceRepository.getWorkspaces()
+export const getWorkspacesController = async () => {
+    try {
+        workspaces_found = await workspaceRepository.getWorkspaces();
 
         return res.json({
             ok: true,
@@ -83,22 +82,19 @@ export const getWorkspaces = async () =>{
                 workspaces_found,
             },
         });
-    
-
     } catch (error) {
         console.log("Error al autenticar", error);
         if (error.status) {
+            return res.send({
+                ok: false,
+                message: error.message,
+                status: error.status,
+            });
+        }
         return res.send({
             ok: false,
             message: error.message,
-            status: error.status,
-        });
-        }
-        return res.send({
-        ok: false,
-        message: error.message,
-        status: 500,
+            status: 500,
         });
     }
-
-}
+};
