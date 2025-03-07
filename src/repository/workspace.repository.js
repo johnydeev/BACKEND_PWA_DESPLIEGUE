@@ -34,6 +34,9 @@ class WorkspaceRepository {
 
         return workspace_found
     }
+    async getWorkspaces(){
+        return await Workspace.find()
+    }
 }
 const workspaceRepository = new WorkspaceRepository();
 export default workspaceRepository;

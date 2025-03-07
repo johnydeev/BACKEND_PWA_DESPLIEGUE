@@ -8,4 +8,6 @@ workspaceRouter.post('/', AuthMiddleware, createWorkspaceController)
 
 workspaceRouter.post("/:workspace_id/invite/:invited_id", AuthMiddleware, inviteUserToWorkspace);
 
+workspaceRouter.get("/", AuthMiddleware , getWorkspaces);
+
 export default workspaceRouter

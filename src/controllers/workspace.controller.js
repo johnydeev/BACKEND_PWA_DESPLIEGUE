@@ -69,3 +69,36 @@ export const inviteUserToWorkspace = async (req, res) => {
         });
     }
 };
+
+export const getWorkspaces = async () =>{
+    try{
+
+        workspaces_found = await workspaceRepository.getWorkspaces()
+
+        return res.json({
+            ok: true,
+            status: 200,
+            message: "Lista de Workspaces",
+            data: {
+                workspaces_found,
+            },
+        });
+    
+
+    } catch (error) {
+        console.log("Error al autenticar", error);
+        if (error.status) {
+        return res.send({
+            ok: false,
+            message: error.message,
+            status: error.status,
+        });
+        }
+        return res.send({
+        ok: false,
+        message: error.message,
+        status: 500,
+        });
+    }
+
+}
