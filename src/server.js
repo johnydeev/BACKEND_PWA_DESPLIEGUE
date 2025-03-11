@@ -10,12 +10,12 @@ import channelRouter from "./routes/channel.router.js";
 const app = express()
 
 connectToMongoDB()
-app.use(cors())
-// app.use(cors(
-//     {
-//         origin: ENVIROMENT.URL_FRONTEND
-//     }
-// ))
+// app.use(cors())
+app.use(cors(
+    {
+        origin: ENVIROMENT.URL_FRONTEND
+    }
+))
 app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/workspaces', workspaceRouter)
