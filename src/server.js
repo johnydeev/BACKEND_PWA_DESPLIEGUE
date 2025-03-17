@@ -11,6 +11,8 @@ const app = express()
 
 connectToMongoDB()
 app.use(cors())
+
+//Esto significa que solo el frontend alojado en esa URL específica podrá hacer solicitudes a este backend.
 // app.use(cors(
 //     {
 //         origin: ENVIROMENT.URL_FRONTEND

@@ -1,11 +1,13 @@
 import workspaceRepository from "../repository/workspace.repository.js"
+import workspaceService from "../service/workspace.service.js"
+import { handleError } from "../utils/error.utils.js"
 
 export const createWorkspaceController = async (req , res) => {
 
     try{
         const { name } = req.body
         const owner_id = req.user._id
-        const new_workspace = await workspaceRepository.createWorkspace({name , owner_id})
+        const new_workspace = await workspaceService.createWorkspace({name , owner_id})
         console.log(name)
         return res.json(
             {
@@ -14,24 +16,13 @@ export const createWorkspaceController = async (req , res) => {
                 message: "Workspace Creado!",
                 data: {
                     new_workspace
-                },            
+                },
             }
         )
 
     }catch(error){
-
-        if(error.status){
-            return res.status(400).send({
-                ok: false,
-                message: error.message,
-                status: error.status,
-            });
-        }
-        return res.status(500).send({
-            ok: false,
-            message: error.message,
-            status: 500,
-        });
+        console.log('error al crear el Workspace')
+        handleError(res, error)
     }    
 }
 
@@ -40,7 +31,7 @@ export const inviteUserToWorkspace = async (req, res) => {
         const user_id = req.user._id;
         const { invited_id, workspace_id } = req.params;
 
-        const workspace_found = await workspaceRepository.addNewMember({owner_id: user_id, workspace_id , invited_id})
+        const workspace_found = await workspaceService.addMember({owner_id: user_id, workspace_id , member_id: invited_id})
 
         res.json(
             {
@@ -54,25 +45,14 @@ export const inviteUserToWorkspace = async (req, res) => {
         )
 
     } catch (error) {
-        console.log("Error al autenticar", error);
-        if (error.status) {
-        return res.send({
-            ok: false,
-            message: error.message,
-            status: error.status,
-        });
-        }
-        return res.send({
-        ok: false,
-        message: error.message,
-        status: 500,
-        });
+        console.log("Error al invitar al workspace", error);
+        handleError(res, error);
     }
 };
 
-export const getWorkspacesController = async () => {
+export const getWorkspacesController = async (req, res) => {
     try {
-        workspaces_found = await workspaceRepository.getWorkspaces();
+        const workspaces_found = await workspaceService.getWorkspaces();
 
         return res.json({
             ok: true,
@@ -83,18 +63,7 @@ export const getWorkspacesController = async () => {
             },
         });
     } catch (error) {
-        console.log("Error al autenticar", error);
-        if (error.status) {
-            return res.send({
-                ok: false,
-                message: error.message,
-                status: error.status,
-            });
-        }
-        return res.send({
-            ok: false,
-            message: error.message,
-            status: 500,
-        });
+        console.log("Error al obtener los workspaces");
+        handleError(res, error);
     }
 };

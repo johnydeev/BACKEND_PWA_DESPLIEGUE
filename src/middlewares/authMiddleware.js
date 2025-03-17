@@ -1,6 +1,6 @@
 
 import ENVIROMENT from "../config/enviroment.config.js";
-import { ServerError } from "../utils/error.utils.js";
+import { handleError, ServerError } from "../utils/error.utils.js";
 import jwt from "jsonwebtoken";
 
 export const AuthMiddleware = (req, res, next) => {
@@ -23,18 +23,7 @@ export const AuthMiddleware = (req, res, next) => {
         
     }catch(error){
         console.log("Error al autenticar", error);
-        if (error.status) {
-            return res.send({
-                ok: false,
-                message: error.message,
-                status: error.status,
-            });
-            }
-            return res.send({
-            ok: false,
-            message: error.message,
-            status: 500,
-        });
+        handleError(res, error);
     }
 }
 

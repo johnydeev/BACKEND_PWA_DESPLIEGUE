@@ -1,5 +1,8 @@
 import channelRepository from "../repository/channel.repository.js";
 import messageRepository from "../repository/message.repository.js";
+import channelService from "../service/channel.service.js";
+import messageService from "../service/message.service.js";
+import { handleError } from "../utils/error.utils.js";
 
 export const createChannelController = async (req , res) =>{
 
@@ -8,9 +11,7 @@ export const createChannelController = async (req , res) =>{
         const { workspace_id } = req.params
         const user_id = req.user._id;
 
-        const new_channel = await channelRepository.createChannel(name , workspace_id , user_id )
-
-        console.log(name)
+        const new_channel = await channelService.createChannel({name , workspace_id , member_id: user_id})
 
         return res.json({
             ok: true,
@@ -22,19 +23,8 @@ export const createChannelController = async (req , res) =>{
         });
 
     } catch (error) {
-        console.log("Error al crear el Canal", error);
-        if (error.status) {
-        return res.send({
-            ok: false,
-            message: error.message,
-            status: error.status,
-        });
-        }
-        return res.send({
-            ok: false,
-            message: error.message,
-            status: 500,
-        });
+        console.log("Error al crear el Canal");
+        handleError(res, error);
     }
 }
 
@@ -44,33 +34,18 @@ export const sendMessageToChannelController = async (req, res) => {
         const user_id = req.user._id;
         const {content} = req.body
 
-        const new_message = await messageRepository.create({sender_id: user_id , channel_id, content})
+        const new_message = await messageService.create({sender_id: user_id , channel_id, content})
 
         return res.json({
             ok: true,
             status: 201,
             message: "Mensaje Creado!",
-            data: {
-                new_message,
-            },
+            data: new_message
         });
 
     } catch (error) {
-        console.log("error al enviar mensaje al canal", error);
-
-        if (error.status) {
-        return res.status(400).send({
-            ok: false,
-            status: error.status,
-            message: error.message,
-        });
-        }
-
-        res.status(500).send({
-        status: 500,
-        ok: false,
-        message: "internal server error",
-        });
+        console.log("error al enviar mensaje al canal");
+        handleError(res, error);
     }
 }
 
@@ -78,9 +53,9 @@ export const getMessagesListFromChannelController = async (req, res) =>{
 
     try{
         const { channel_id } = req.params
-        const user_id = req.user._id
+        // const user_id = req.user._id
 
-        const messages_list = await messageRepository.findMessagesFromChannel({channel_id, user_id})
+        const messages_list = await messageService.findMessagesByChannel({channel_id})
 
         console.log("Lista de mensajes: ", messages_list)
 
@@ -89,28 +64,12 @@ export const getMessagesListFromChannelController = async (req, res) =>{
             ok: true,
             status: 200,
             message: "Lista encontrada!",
-            data: {
-                messages_list,
-            },
+            data: messages_list            
         });
 
         
     }catch(error){
-        console.log("error al Obtener los mensajes del canal", error);
-
-        if (error.status) {
-            return res.status(400).send({
-                ok: false,
-                status: error.status,
-                message: error.message,
-            });
-        }
-
-        res.status(500).send({
-            status: 500,
-            ok: false,
-            message: "internal server error",
-        });
-
+        console.log("error al Obtener los mensajes del canal");
+        handleError(res, error);
     }
 }
