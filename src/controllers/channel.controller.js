@@ -1,5 +1,3 @@
-import channelRepository from "../repository/channel.repository.js";
-import messageRepository from "../repository/message.repository.js";
 import channelService from "../service/channel.service.js";
 import messageService from "../service/message.service.js";
 import { handleError } from "../utils/error.utils.js";

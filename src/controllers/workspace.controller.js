@@ -1,4 +1,3 @@
-import workspaceRepository from "../repository/workspace.repository.js"
 import workspaceService from "../service/workspace.service.js"
 import { handleError } from "../utils/error.utils.js"
 
