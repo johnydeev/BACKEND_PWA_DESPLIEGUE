@@ -10,23 +10,15 @@ import channelRouter from "./routes/channel.router.js";
 const app = express()
 
 connectToMongoDB()
-<<<<<<< HEAD
-app.use(cors())
 
-//Esto significa que solo el frontend alojado en esa URL específica podrá hacer solicitudes a este backend.
-// app.use(cors(
-//     {
-//         origin: ENVIROMENT.URL_FRONTEND
-//     }
-// ))
-=======
 // app.use(cors())
+
 app.use(cors(
     {
         origin: ENVIROMENT.URL_FRONTEND
     }
 ))
->>>>>>> 9d9d9bbeb0a5c6e18757af6106e8f525f6778682
+
 app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/workspaces', workspaceRouter)
