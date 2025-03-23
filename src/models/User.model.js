@@ -32,6 +32,10 @@ const userSchema = mongoose.Schema({
     active: {
         type: Boolean,
         default: true
+    },
+    profile_img:{
+        type: String,
+        default: 'https://www.pngitem.com/pimgs/m/146-1462217_profile-icon-orange-png-transparent-png.png'
     }
 })
 

@@ -6,10 +6,15 @@ import authService from "../service/auth.service.js";
 export const registerController = async (req , res) =>{
     console.log(req.body)
     try{
-        const { username, password, email } = req.body;       
+        const { username, password, email, profile_img } = req.body; 
         
-        const response = await userService.createUser({ username, password, email })
-        console.log(response)
+        const response = await userService.createUser({
+            username,
+            password,
+            email,
+            profile_img,
+        });
+        
 
         return res.status(201).send({
             ok: true,

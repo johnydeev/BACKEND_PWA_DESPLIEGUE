@@ -19,7 +19,22 @@ app.use(cors(
     }
 ))
 
-app.use(express.json())
+// const bloledIps = []
+
+// app.use((req, res, next) => {
+//     const clientIp = req.ip
+//     if(bloledIps.includes(clientIp)){
+//         res.status(403).send({
+//             message: "Tu ip esta bloqueada"
+//         })
+//     }else{
+//         next()
+//     }
+// })
+
+
+
+app.use(express.json({limit: '2mb'}))
 app.use('/api/auth', authRouter)
 app.use('/api/workspaces', workspaceRouter)
 app.use('/api/channels', channelRouter)

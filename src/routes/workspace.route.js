@@ -6,8 +6,8 @@ const workspaceRouter = Router()
 
 workspaceRouter.post('/', AuthMiddleware, createWorkspaceController)
 
-workspaceRouter.post("/:workspace_id/invite/:invited_id", AuthMiddleware, inviteUserToWorkspace);
+workspaceRouter.post("/:workspace_id/invite/:invited_id", AuthMiddleware, inviteUserToWorkspace)
 
-workspaceRouter.get("/", AuthMiddleware , getWorkspacesController);
+workspaceRouter.get("/", AuthMiddleware , getWorkspacesController)
 
 export default workspaceRouter

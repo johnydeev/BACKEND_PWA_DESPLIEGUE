@@ -56,14 +56,35 @@ class MessageRepository {
     //     }
     // }
 
-    async findMessagesByChannel({ channel_id }) {
+    async findMessagesFromChannel({ channel_id }) {
         
         const queryStr = `SELECT * FROM messages WHERE channel = ?`;
         const [result] = await promisePool.execute(queryStr, [channel_id])
+        console.log("Result: ", result)
         return result
+    }
+
+    async getMessagesFromChannel({channel_id}) {
+        const queryStr = `
+        SELECT 
+                messages._id, 
+                messages.content, 
+                messages.created_at, 
+                users.username,
+                users.email
+        FROM messages
+        JOIN users
+        ON messages.sender = users._id
+        WHERE messages.channel = ?
+        ORDER BY messages.created_at ASC
+        `
+        const [messages] = await promisePool.execute(queryStr, [channel_id])
+        console.log("Messages: ", messages)
+        return {messages}
     }
 }
 
 const messageRepository = new MessageRepository()
 
 export default messageRepository
+

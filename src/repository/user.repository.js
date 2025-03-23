@@ -4,27 +4,42 @@ import { ServerError } from "../utils/error.utils.js";
 
 class UserRepository {
     // async create({ username, password, email, verification_token }) {
+
     //     await User.create({ username, password, email, verification_token });
     // }
 
-    async create({ username, email, password, verification_token }) {
+    async create({
+        username,
+        email,
+        password,
+        verification_token,
+        profile_img,
+    }) {
         try {
             let queryStr = `
-                INSERT INTO users (username, email, password, verification_token)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO users (username, email, password, verification_token, profile_img)
+                VALUES (?, ?, ?, ?,?)
             `;
             const [result] = await promisePool.execute(queryStr, [
                 username,
                 email,
                 password,
                 verification_token,
+                profile_img,
             ]);
-
-            return result[0];
-
+            const userId = result.insertId;
+            const user = await this.findUserById(userId);
+            return user;
         } catch (error) {
             throw new ServerError(error.message, error.status || 500);
         }
+    }
+
+    async findUserById(id) {
+        const queryStr = `SELECT * FROM users WHERE _id = ?`;
+
+        const [result] = await promisePool.execute(queryStr, [id]);
+        return result[0];
     }
 
     // async verifyUserByEmail(email) {
@@ -45,12 +60,14 @@ class UserRepository {
     // }
 
     async verifyUserByEmail(email, verification_token) {
-        
         const queryStr = `UPDATE users SET verified = 1 WHERE email = ? AND verification_token = ?`;
 
-        const [result] = await promisePool.execute(queryStr, [email, verification_token]);
+        const [result] = await promisePool.execute(queryStr, [
+            email,
+            verification_token,
+        ]);
 
-        return result[0]
+        return result[0];
     }
 
     async findUserByEmail(email) {
@@ -71,13 +88,11 @@ class UserRepository {
     // }
 
     async updateUserPassword(id, password) {
-
         const queryStr = `UPDATE users SET password = ? WHERE _id = ?`;
 
-        const result = await promisePool.execute(queryStr, [password ,id]);
+        const result = await promisePool.execute(queryStr, [password, id]);
 
-        return result[0]
-        
+        return result[0];
     }
 }
 

@@ -51,10 +51,13 @@ export const getMessagesListFromChannelController = async (req, res) =>{
 
     try{
         const { channel_id } = req.params
-        // const user_id = req.user._id
+        const user_id = req.user._id
 
-        const messages_list = await messageService.findMessagesByChannel({channel_id})
-
+        const messages_list = await messageService.getMessagesFromChannel({
+            channel_id,
+            user_id,
+        });
+        
         console.log("Lista de mensajes: ", messages_list)
 
         return res.json({
@@ -62,7 +65,7 @@ export const getMessagesListFromChannelController = async (req, res) =>{
             ok: true,
             status: 200,
             message: "Lista encontrada!",
-            data: messages_list            
+            data: messages_list
         });
 
         

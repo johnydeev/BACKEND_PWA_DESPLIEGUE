@@ -18,8 +18,8 @@ class UserService {
                 { email }, //Lo que se guarda en el token
                 ENVIROMENT.SECRET_KEY_JWT, // Clave con la que se va a firmar
                 { expiresIn: "24h" } // Tiempo de Expiracion del token
-            );
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{3,}$/;
+            )
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{3,}$/
             if (!emailRegex.test(email)) {
                 throw new ServerError(
                     "El email no tiene un formato válido",
@@ -32,6 +32,7 @@ class UserService {
                 password: passwordHash,
                 email: email,
                 verification_token,
+                profile_img
             });
 
             const mailResponse = await sendMail({
@@ -48,7 +49,7 @@ class UserService {
                         `,
             });
             console.log("MailResponse>>", mailResponse);
-
+            console.log("Respuesta: ", response);
             return response;
         } catch (error) {
             throw new ServerError(error.message, error.status || 500);
@@ -100,7 +101,7 @@ class UserService {
                 html: `<p>Has solicitado resetear tu contraseña de no ser tu ignora este mail</p>
                         <a href='${ENVIROMENT.URL_FRONTEND}/rewrite-password?reset_token=${reset_token}'>Click aqui para resetear</a>`,
             })
-            
+
         } catch (error) {
             throw new ServerError(error.message, error.status || 500);
         }
