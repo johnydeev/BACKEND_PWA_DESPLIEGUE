@@ -31,8 +31,8 @@ class UserService {
                 username: username,
                 password: passwordHash,
                 email: email,
-                verification_token,
-                profile_img
+                verification_token
+                // profile_img 
             });
 
             const mailResponse = await sendMail({

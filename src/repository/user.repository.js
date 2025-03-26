@@ -12,13 +12,14 @@ class UserRepository {
         username,
         email,
         password,
-        verification_token,
-        profile_img,
+        verification_token        
     }) {
         try {
+            const profile_img = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+
             let queryStr = `
                 INSERT INTO users (username, email, password, verification_token, profile_img)
-                VALUES (?, ?, ?, ?,?)
+                VALUES (?, ?, ?, ?, ?)
             `;
             const [result] = await promisePool.execute(queryStr, [
                 username,
