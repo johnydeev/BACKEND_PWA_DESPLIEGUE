@@ -62,10 +62,14 @@ class WorkspaceRepository {
     //     return await Workspace.find();
     // }
 
-    async getWorkspaces() {
-        const queryStr = `SELECT * FROM workspaces`;
-        const [result] = await promisePool.execute(queryStr);
+    async getWorkspaces(id) {        
+        const queryStr = `
+            SELECT * FROM workspaces WHERE owner = ?
+        `; 
+        const [result] = await promisePool.execute(queryStr, [id]);
+        console.log("Result: ", result);
         return result;
+        
     }
 
     async isUserMemberOfWorkspace({ workspace_id, member_id }) {
