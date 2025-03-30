@@ -60,6 +60,7 @@ export const getWorkspacesController = async (req, res) => {
             status: 200,
             message: "Lista de Workspaces",
             data: {
+                user_id,
                 workspaces_found,
             },
         });
