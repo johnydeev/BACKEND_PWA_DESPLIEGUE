@@ -6,13 +6,14 @@ import {
     rewritePasswordController, 
     verifyEmailController
 } from "../controllers/auth.controller.js";
+import { AuthMiddleware } from "../middlewares/authMiddleware.js";
 
 const authRouter = Router()
 
-authRouter.post('/register', registerController)
-authRouter.get("/verify-email", verifyEmailController)
 authRouter.post("/login", loginController)
-authRouter.post('/reset-password', resetPasswordController)
-authRouter.put("/reset-password", rewritePasswordController)
+authRouter.post('/register', registerController)
+authRouter.get("/verify-email", AuthMiddleware, verifyEmailController)
+authRouter.post('/reset-password', AuthMiddleware, resetPasswordController)
+authRouter.put("/reset-password", AuthMiddleware, rewritePasswordController)
 
 export default authRouter
