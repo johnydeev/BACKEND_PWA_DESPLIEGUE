@@ -59,9 +59,8 @@ export const getWorkspacesController = async (req, res) => {
             ok: true,
             status: 200,
             message: "Lista de Workspaces",
-            data: {                
-                workspaces_found,
-            },
+            data: workspaces_found,
+            
         });
     } catch (error) {
         console.log("Error al obtener los workspaces");
