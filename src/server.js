@@ -9,7 +9,7 @@ import channelRouter from "./routes/channel.router.js";
 
 const app = express()
 
-connectToMongoDB()
+// connectToMongoDB()
 
 // app.use(cors())
 
