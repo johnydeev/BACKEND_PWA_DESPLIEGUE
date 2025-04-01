@@ -6,8 +6,6 @@ const channelRouter = Router()
 
 channelRouter.post('/:workspace_id', AuthMiddleware, createChannelController)
 
-channelRouter.get("/:workspace_id", AuthMiddleware , getChannelListByWorkspaceController);
-
 channelRouter.post("/:channel_id/messages", AuthMiddleware, sendMessageToChannelController);
 
 channelRouter.get("/:channel_id/messages", AuthMiddleware , getMessagesListFromChannelController);

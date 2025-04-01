@@ -8,7 +8,7 @@ export const createChannelController = async (req , res) =>{
         const { name } = req.body
         const { workspace_id } = req.params
         const user_id = req.user._id;
-        
+
         const new_channel = await channelService.createChannel({name , workspace_id , member_id: user_id})
 
         return res.json({
@@ -72,19 +72,4 @@ export const getMessagesListFromChannelController = async (req, res) =>{
         console.log("error al Obtener los mensajes del canal");
         handleError(res, error);
     }
-}
-
-export const getChannelListByWorkspaceController = async (req, res) =>{
-
-    const {workspace_id} = req.params
-    console.log("Workspace_ID", workspace_id)
-    const channel_list = await channelService.getChannelListByWorkspace({workspace_id})
-
-    return res.json({
-        ok:true,
-        status: 200,
-        message: 'Lista de canales x Workspace encontrada',
-        data: channel_list
-    })
-
 }
