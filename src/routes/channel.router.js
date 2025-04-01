@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthMiddleware } from "../middlewares/authMiddleware.js";
-import { createChannelController, getChannelListByWorkspaceController, getMessagesListFromChannelController, sendMessageToChannelController } from "../controllers/channel.controller.js";
+import { createChannelController, getMessagesListFromChannelController, sendMessageToChannelController } from "../controllers/channel.controller.js";
 
 const channelRouter = Router()
 
