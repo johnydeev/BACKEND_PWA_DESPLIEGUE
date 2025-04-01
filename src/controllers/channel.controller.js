@@ -53,7 +53,7 @@ export const getMessagesListFromChannelController = async (req, res) =>{
         const { channel_id } = req.params
         const user_id = req.user._id
 
-        const messages_list = await messageService.getMessagesFromChannel({
+        const messages_list = await messageService.getMessagesByUser({
             channel_id,
             user_id,
         });
@@ -67,10 +67,24 @@ export const getMessagesListFromChannelController = async (req, res) =>{
             message: "Lista encontrada!",
             data: messages_list
         });
-
         
     }catch(error){
         console.log("error al Obtener los mensajes del canal");
         handleError(res, error);
     }
+}
+
+export const getChannelListByWorkspaceController = async (req, res) =>{
+
+    const {workspace_id} = req.params
+    console.log("Workspace_ID", workspace_id)
+    const channel_list = await channelService.getChannelListByWorkspace({workspace_id})
+
+    return res.json({
+        ok:true,
+        status: 200,
+        message: 'Lista de canales x Workspace encontrada',
+        data: channel_list
+    })
+
 }

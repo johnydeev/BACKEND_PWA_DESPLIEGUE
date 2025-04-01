@@ -25,12 +25,14 @@ class MessageRepository {
     // }
 
     async create({ sender_id, channel_id, content }) {
-        
         const queryStr = `INSERT INTO messages (sender, channel, content) VALUES (?, ?, ?)`;
-        const [result] = await promisePool.execute(queryStr, [sender_id, channel_id, content])
+        const [result] = await promisePool.execute(queryStr, [
+            sender_id,
+            channel_id,
+            content,
+        ]);
 
-        return { id: result.insertId, sender_id, channel_id, content }
-        
+        return { id: result.insertId, sender_id, channel_id, content };
     }
 
     // async findMessagesByChannel({ channel_id, user_id }) {
@@ -57,14 +59,13 @@ class MessageRepository {
     // }
 
     async findMessagesFromChannel({ channel_id }) {
-        
         const queryStr = `SELECT * FROM messages WHERE channel = ?`;
-        const [result] = await promisePool.execute(queryStr, [channel_id])
-        console.log("Result: ", result)
-        return result
+        const [result] = await promisePool.execute(queryStr, [channel_id]);
+        console.log("Result: ", result);
+        return result;
     }
 
-    async getMessagesFromChannel({channel_id}) {
+    async getMessagesByUser({ channel_id }) {
         const queryStr = `
         SELECT 
                 messages._id, 
@@ -77,11 +78,13 @@ class MessageRepository {
         ON messages.sender = users._id
         WHERE messages.channel = ?
         ORDER BY messages.created_at ASC
-        `
-        const [messages] = await promisePool.execute(queryStr, [channel_id])
-        console.log("Messages: ", messages)
-        return {messages}
+        `;
+        const [messages] = await promisePool.execute(queryStr, [channel_id]);
+        console.log("Messages: ", messages);
+        return { messages };
     }
+
+    
 }
 
 const messageRepository = new MessageRepository()

@@ -8,7 +8,6 @@ class ChannelRepository {
     //     return Channel.findById(channel_id).populate("workspace");
     // }
 
-
     async findChannelById(channel_id) {
         const queryStr = `SELECT * FROM channels WHERE _id = ?`;
         const [result] = await promisePool.execute(queryStr, [channel_id]);
@@ -34,12 +33,22 @@ class ChannelRepository {
     //     return channel;
     // }
 
-    async createChannel({name, workspace_id}) {
-        
+    async createChannel({ name, workspace_id }) {
         const queryStr = `INSERT INTO channels (name, workspace) VALUES (?, ?)`;
-        const [result] = await promisePool.execute(queryStr, [name, workspace_id]);
+        const [result] = await promisePool.execute(queryStr, [
+            name,
+            workspace_id,
+        ]);
         const channel_id = result.insertId;
-        return {channel_id, name, workspace_id};
+        return { channel_id, name, workspace_id };
+    }
+
+    async getChannelListByWorkspace({ workspace_id }) {
+        const queryStr = ` SELECT * FROM channels WHERE workspace = ?`;
+
+        const [result] = await promisePool.execute(queryStr, [workspace_id])
+        console.log("Result: ", result)
+        return result
     }
 }
 

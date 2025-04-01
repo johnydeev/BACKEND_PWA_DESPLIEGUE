@@ -41,8 +41,7 @@ class MessageService {
     //     return response;
     // }
 
-    async getMessagesFromChannel({ channel_id, user_id }) {
-
+    async getMessagesByUser({ channel_id, user_id }) {
         console.log("Channel_ID: ", channel_id);
         console.log("User_ID: ", user_id);
 
@@ -58,13 +57,13 @@ class MessageService {
         const is_member = await workspaceRepository.isUserMemberOfWorkspace({
             member_id: user_id,
             workspace_id: channel_found.workspace,
-        })
+        });
         if (!is_member) {
             throw new ServerError("No eres miembro del canal", 403);
         }
 
         console.log("Channel_ID2: ", channel_id);
-        return await messageRepository.getMessagesFromChannel({channel_id});
+        return await messageRepository.getMessagesByUser({ channel_id });
     }
 }
 
