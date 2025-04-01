@@ -54,7 +54,7 @@ export const getWorkspacesController = async (req, res) => {
         const user_id = req.user._id;
         console.log("user_ID: ",user_id)
         const workspaces_found = await workspaceService.getWorkspaces(user_id);
-
+        
         return res.json({
             ok: true,
             status: 200,

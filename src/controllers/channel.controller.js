@@ -8,7 +8,7 @@ export const createChannelController = async (req , res) =>{
         const { name } = req.body
         const { workspace_id } = req.params
         const user_id = req.user._id;
-
+        
         const new_channel = await channelService.createChannel({name , workspace_id , member_id: user_id})
 
         return res.json({

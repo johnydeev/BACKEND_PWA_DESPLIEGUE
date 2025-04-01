@@ -62,14 +62,28 @@ class WorkspaceRepository {
     //     return await Workspace.find();
     // }
 
-    async getWorkspaces(id) {        
+    async getWorkspaces(id) {
         const queryStr = `
-            SELECT * FROM workspaces WHERE owner = ?
-        `; 
+            SELECT 
+            w.*, 
+            COALESCE(
+                JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'id', c._id, 
+                        'name', c.name,
+                        'created_at', c.created_at
+                    )
+                ), 
+                JSON_ARRAY()
+            ) AS channels
+        FROM workspaces w
+        LEFT JOIN channels c ON w._id = c.workspace
+        WHERE w.owner = ?
+        GROUP BY w._id
+        `;
         const [result] = await promisePool.execute(queryStr, [id]);
         console.log("Result: ", result);
         return result;
-        
     }
 
     async isUserMemberOfWorkspace({ workspace_id, member_id }) {
