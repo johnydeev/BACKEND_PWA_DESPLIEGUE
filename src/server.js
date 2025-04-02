@@ -13,7 +13,11 @@ const app = express()
 
 // app.use(cors())
 
-app.use(cors())
+app.use(cors(
+    {
+        origin: ENVIROMENT.URL_FRONTEND
+    }
+))
 
 // const bloledIps = []
 
