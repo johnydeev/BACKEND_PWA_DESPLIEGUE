@@ -70,8 +70,9 @@ export const loginController = async (req , res) =>{
 export const resetPasswordController = async (req , res) => {
     try{
         const {email} = req.body
+        console.log("Email reset: ", email)
         
-        await userService.resetPassword(email)
+        await userService.resetPassword({email})
         
         res.status(201).send({
             ok: true,
