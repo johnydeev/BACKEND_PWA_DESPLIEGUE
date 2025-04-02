@@ -72,7 +72,7 @@ class MessageRepository {
                 messages.content, 
                 messages.created_at, 
                 users.username,
-                users.email
+                users.profile_img
         FROM messages
         JOIN users
         ON messages.sender = users._id
