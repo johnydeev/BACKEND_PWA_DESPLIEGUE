@@ -71,7 +71,7 @@ class UserService {
             if (!user_found) {
                 throw new ServerError("User not found", 404);
             }
-            if (user_found.verified) {
+            if (!user_found.verified) {
                 throw new ServerError("User has already been verified", 404);
             }
         } catch (error) {

@@ -9,7 +9,7 @@ const ENVIROMENT = {
     EMAIL: process.env.EMAIL,
     EMAIL_KEY: process.env.EMAIL_KEY,
     URL_BACKEND: process.env.URL_BACKEND || "http://localhost:3000",
-    URL_FRONTEND: process.env.URL_FRONTEND || "http://locahost:3000",
+    URL_FRONTEND: process.env.URL_FRONTEND || "http://locahost:5173",
     MYSQL: {
         DB_NAME: process.env.MYSQL_DB_NAME,
         USERNAME: process.env.MYSQL_USER,
