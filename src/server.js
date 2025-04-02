@@ -15,7 +15,7 @@ const app = express()
 
 app.use(cors(
     {
-        origin: ENVIROMENT.URL_FRONTEND
+        origin: [ENVIROMENT.URL_FRONTEND, "http://localhost:5173"]
     }
 ))
 
