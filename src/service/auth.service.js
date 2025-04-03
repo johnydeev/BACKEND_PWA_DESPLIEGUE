@@ -34,7 +34,7 @@ class AuthService {
                 ENVIROMENT.SECRET_KEY_JWT,
                 { expiresIn: "24h" }
             );
-            return { authorization_token };
+            return authorization_token ;
         } catch (error) {
             throw new ServerError(error.message, error.status || 500);
         }
