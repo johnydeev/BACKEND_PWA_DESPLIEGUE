@@ -47,7 +47,7 @@ export const loginController = async (req , res) =>{
         const {email , password } = req.body
         console.log(email,password)
         
-        const response = await authService.login(email, password)
+        const authorization_token = await authService.login(email, password);
         console.log(response)
         
         return res.json(
@@ -56,7 +56,7 @@ export const loginController = async (req , res) =>{
                 status: 200, 
                 message:"Logueo exitoso",
                 payload:{
-                    authorization_token: response
+                    authorization_token
                 }
             }
         )
