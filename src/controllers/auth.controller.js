@@ -48,7 +48,7 @@ export const loginController = async (req , res) =>{
         console.log(email,password)
         
         const authorization_token = await authService.login(email, password);
-        console.log(response)
+        console.log(authorization_token);
         
         return res.json(
             {
