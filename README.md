@@ -23,7 +23,7 @@ Entre los aprendizajes que se destacan son:
 
 - Autenticacion con JWT.
 - Middlewares.
-- Evitar injeccion de codigo SQL por formulario.
+- Evitar inyeccion de codigo SQL por formulario.
 - Arquitectura MVC.
 - Configuracion de variables de entorno, base de datos, entre otros.
 - Migracion de base de datos.
