@@ -13,7 +13,7 @@ const authRouter = Router()
 authRouter.post("/login", loginController)
 authRouter.post('/register', registerController)
 authRouter.get("/verify-email", verifyEmailController)
-authRouter.post('/reset-password', AuthMiddleware, resetPasswordController)
-authRouter.put("/reset-password", AuthMiddleware, rewritePasswordController)
+authRouter.post('/reset-password' , resetPasswordController)
+authRouter.put("/reset-password", rewritePasswordController)
 
 export default authRouter

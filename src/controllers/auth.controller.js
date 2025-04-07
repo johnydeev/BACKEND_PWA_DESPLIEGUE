@@ -26,22 +26,6 @@ export const registerController = async (req , res) =>{
     }    
 }
 
-export const verifyEmailController = async (req , res ) => {
-    
-    try{
-        const {verification_token} = req.query
-        
-        const user_found = await userService.verifyUserByEmail(verification_token);
-        console.log(user_found)
-
-        res.redirect(ENVIROMENT.URL_FRONTEND +'/login')
-        
-    }catch(error){
-        console.log('error al registrar', error)
-        handleError(res, error)
-    }
-}
-
 export const loginController = async (req , res) =>{
     try{
         const {email , password } = req.body
@@ -67,24 +51,41 @@ export const loginController = async (req , res) =>{
     }
 }
 
-export const resetPasswordController = async (req , res) => {
-    try{
-        const {email} = req.body
-        console.log("Email reset: ", email)
-        
-        await userService.resetPassword({email})
-        
+export const resetPasswordController = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        console.log("Email reset: ", email);
+
+        await userService.resetPassword({ email });
+
         res.status(201).send({
             ok: true,
             message: "Mail enviado",
-            status: 201
+            status: 201,
         });
-    
-    }catch(error){
+    } catch (error) {
         console.log("error al resetear password", error);
         handleError(res, error);
     }
-}
+};
+
+export const verifyEmailController = async (req, res) => {
+    try {
+        const { verification_token } = req.query;
+
+        const user_found = await userService.verifyUserByEmail(
+            verification_token
+        );
+        console.log(user_found);
+
+        res.redirect(ENVIROMENT.URL_FRONTEND + "/login");
+    } catch (error) {
+        console.log("error al registrar", error);
+        handleError(res, error);
+    }
+};
+
 
 export const rewritePasswordController = async (req, res) =>{
 

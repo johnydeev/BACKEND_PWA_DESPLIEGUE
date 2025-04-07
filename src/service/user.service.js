@@ -18,8 +18,8 @@ class UserService {
                 { email }, //Lo que se guarda en el token
                 ENVIROMENT.SECRET_KEY_JWT, // Clave con la que se va a firmar
                 { expiresIn: "24h" } // Tiempo de Expiracion del token
-            )
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{3,}$/
+            );
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{3,}$/;
             if (!emailRegex.test(email)) {
                 throw new ServerError(
                     "El email no tiene un formato válido",
@@ -31,8 +31,8 @@ class UserService {
                 username: username,
                 password: passwordHash,
                 email: email,
-                verification_token
-                // profile_img 
+                verification_token,
+                // profile_img
             });
 
             const mailResponse = await sendMail({
@@ -51,29 +51,6 @@ class UserService {
             console.log("MailResponse>>", mailResponse);
             console.log("Respuesta: ", response);
             return response;
-        } catch (error) {
-            throw new ServerError(error.message, error.status || 500);
-        }
-    }
-
-    async verifyUserByEmail(verification_token) {
-        try {
-            const payload = jwt.verify(
-                verification_token,
-                ENVIROMENT.SECRET_KEY_JWT
-            );
-            const { email } = payload;
-
-            await userRepository.verifyUserByEmail(email, verification_token);
-
-            const user_found = await userRepository.findUserByEmail(email);
-
-            if (!user_found) {
-                throw new ServerError("User not found", 404);
-            }
-            if (!user_found.verified) {
-                throw new ServerError("User has already been verified", 404);
-            }
         } catch (error) {
             throw new ServerError(error.message, error.status || 500);
         }
@@ -100,8 +77,30 @@ class UserService {
                 subject: "Reset your Password",
                 html: `<p>Has solicitado resetear tu contraseña de no ser tu ignora este mail</p>
                         <a href='${ENVIROMENT.URL_FRONTEND}/rewrite-password?reset_token=${reset_token}'>Click aqui para resetear</a>`,
-            })
+            });
+        } catch (error) {
+            throw new ServerError(error.message, error.status || 500);
+        }
+    }
+    
+    async verifyUserByEmail(verification_token) {
+        try {
+            const payload = jwt.verify(
+                verification_token,
+                ENVIROMENT.SECRET_KEY_JWT
+            );
+            const { email } = payload;
 
+            await userRepository.verifyUserByEmail(email, verification_token);
+
+            const user_found = await userRepository.findUserByEmail(email);
+
+            if (!user_found) {
+                throw new ServerError("User not found", 404);
+            }
+            if (!user_found.verified) {
+                throw new ServerError("User has already been verified", 404);
+            }
         } catch (error) {
             throw new ServerError(error.message, error.status || 500);
         }
