@@ -6,7 +6,6 @@ import {
     rewritePasswordController, 
     verifyEmailController
 } from "../controllers/auth.controller.js";
-import { AuthMiddleware } from "../middlewares/authMiddleware.js";
 
 const authRouter = Router()
 
