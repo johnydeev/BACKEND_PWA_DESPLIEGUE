@@ -35,7 +35,8 @@ Las dificultades mas recurrentes en mi caso son los handlebars y el tipado del p
 - [x] Autenticacion con JWT
 - [x] Confirmacion de correo con **Nodemailer**
 - [x] Recuperacion de contraseña
-- [x] Proteccion de rutas mediante middleware 
+- [x] Proteccion de rutas mediante middleware
+- [ ] Responsive
 - [ ] Tipado
 - [ ] Handlebars
 
